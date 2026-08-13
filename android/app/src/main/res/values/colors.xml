@@ -1,0 +1,7 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <!-- Placeholder background for the adaptive launcher icon.
+         Replace this color with the Docvera brand color once the final
+         logo artwork is provided. -->
+    <color name="ic_launcher_background">#FFFFFF</color>
+</resources>

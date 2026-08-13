@@ -554,8 +554,8 @@ class _PageTile extends StatelessWidget {
                     ),
                     child: Text(
                       '$order',
-                      style: const TextStyle(
-                        color: Colors.white,
+                      style: TextStyle(
+                        color: Theme.of(context).colorScheme.onPrimary,
                         fontSize: 10,
                         fontWeight: FontWeight.w700,
                       ),

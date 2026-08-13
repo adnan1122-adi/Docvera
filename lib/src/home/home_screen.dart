@@ -6,6 +6,7 @@ import '../editor/editor_screen.dart';
 import '../models/recent_document.dart';
 import '../services/document_io.dart';
 import '../services/recent_store.dart';
+import '../theme/spacing.dart';
 import '../tools/merge_pdf_screen.dart';
 import '../tools/split_pdf_screen.dart';
 import 'file_drop_stub.dart'
@@ -175,6 +176,21 @@ class _HomeScreenState extends State<HomeScreen> {
                 style: Theme.of(context).textTheme.bodySmall?.copyWith(
                       color: Theme.of(context).colorScheme.onSurfaceVariant,
                     ),
+              ),
+              const SizedBox(height: 12),
+              Row(
+                mainAxisAlignment: MainAxisAlignment.start,
+                children: [
+                  TextButton(
+                    onPressed: () => Navigator.of(context).pushNamed('/privacy'),
+                    child: const Text('Privacy Policy'),
+                  ),
+                  const SizedBox(width: 8),
+                  TextButton(
+                    onPressed: () => Navigator.of(context).pushNamed('/terms'),
+                    child: const Text('Terms of Service'),
+                  ),
+                ],
               ),
             ],
           ),
@@ -353,16 +369,13 @@ class _Header extends StatelessWidget {
           width: 40,
           height: 40,
           decoration: BoxDecoration(
-            gradient: LinearGradient(
-              colors: [scheme.primary, scheme.primary.withValues(alpha: 0.72)],
-              begin: Alignment.topLeft,
-              end: Alignment.bottomRight,
-            ),
-            borderRadius: BorderRadius.circular(12),
+            color: scheme.primary,
+            borderRadius: BorderRadius.circular(AppSpacing.radiusSmall),
           ),
-          child: const Icon(Icons.picture_as_pdf, color: Colors.white, size: 22),
+          child: const Icon(Icons.picture_as_pdf,
+              color: Colors.white, size: 22),
         ),
-        const SizedBox(width: 12),
+        const SizedBox(width: AppSpacing.md),
         Flexible(
           child: Text(
             'Docvera PDF Editor',
@@ -374,7 +387,7 @@ class _Header extends StatelessWidget {
                 ),
           ),
         ),
-        const SizedBox(width: 8),
+        const SizedBox(width: AppSpacing.sm),
         IconButton(
           icon: Icon(darkMode ? Icons.light_mode_outlined : Icons.dark_mode_outlined),
           tooltip: darkMode ? 'Light theme' : 'Dark theme',
@@ -404,37 +417,44 @@ class _OpenPanel extends StatelessWidget {
     final scheme = Theme.of(context).colorScheme;
     return Card(
       child: Padding(
-        padding: const EdgeInsets.symmetric(horizontal: 28, vertical: 28),
+        padding: const EdgeInsets.symmetric(horizontal: AppSpacing.xl, vertical: AppSpacing.xl),
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.stretch,
           children: [
             Text(
               'Open a PDF to start editing',
               textAlign: TextAlign.center,
-              style: Theme.of(context)
-                  .textTheme
-                  .headlineSmall
-                  ?.copyWith(fontWeight: FontWeight.w700),
+              style: Theme.of(context).textTheme.headlineSmall,
             ),
-            const SizedBox(height: 6),
+            const SizedBox(height: AppSpacing.sm),
             Text(
               'Annotate, edit text, manage pages, search, and export.',
               textAlign: TextAlign.center,
-              style: TextStyle(color: scheme.onSurfaceVariant, fontSize: 14),
+              style: Theme.of(context).textTheme.bodyMedium?.copyWith(
+                    color: scheme.onSurfaceVariant,
+                  ),
             ),
-            const SizedBox(height: 22),
-            FilledButton.icon(
-              onPressed: busy ? null : onOpen,
-              icon: busy
-                  ? const SizedBox(
-                      width: 16,
-                      height: 16,
-                      child: CircularProgressIndicator(strokeWidth: 2),
-                    )
-                  : const Icon(Icons.folder_open_outlined),
-              label: Text(busy ? 'Opening…' : 'Open PDF'),
+            const SizedBox(height: AppSpacing.xl),
+            Center(
+              child: ConstrainedBox(
+                constraints: const BoxConstraints(maxWidth: 360),
+                child: FilledButton.icon(
+                  onPressed: busy ? null : onOpen,
+                  style: FilledButton.styleFrom(
+                    minimumSize: const Size(360, 52),
+                  ),
+                  icon: busy
+                      ? const SizedBox(
+                          width: 18,
+                          height: 18,
+                          child: CircularProgressIndicator(strokeWidth: 2),
+                        )
+                      : const Icon(Icons.folder_open_outlined, size: 20),
+                  label: Text(busy ? 'Opening…' : 'Open PDF'),
+                ),
+              ),
             ),
-            const SizedBox(height: 10),
+            const SizedBox(height: AppSpacing.md),
             if (kIsWeb)
               Row(
                 mainAxisAlignment: MainAxisAlignment.center,
@@ -444,8 +464,7 @@ class _OpenPanel extends StatelessWidget {
                   const SizedBox(width: 6),
                   Text(
                     'or drop a PDF anywhere on this page',
-                    style: TextStyle(
-                        fontSize: 12.5, color: scheme.onSurfaceVariant),
+                    style: Theme.of(context).textTheme.bodySmall,
                   ),
                 ],
               ),
@@ -477,19 +496,19 @@ class _PdfToolCard extends StatelessWidget {
       child: InkWell(
         onTap: onTap,
         child: Padding(
-          padding: const EdgeInsets.all(14),
+          padding: const EdgeInsets.all(AppSpacing.lg),
           child: Row(
             children: [
               Container(
                 width: 44,
                 height: 44,
                 decoration: BoxDecoration(
-                  color: scheme.primaryContainer,
-                  borderRadius: BorderRadius.circular(10),
+                  color: scheme.surfaceContainerHigh,
+                  borderRadius: BorderRadius.circular(AppSpacing.radiusSmall),
                 ),
-                child: Icon(icon, color: scheme.onPrimaryContainer, size: 22),
+                child: Icon(icon, color: scheme.primary, size: 22),
               ),
-              const SizedBox(width: 12),
+              const SizedBox(width: AppSpacing.md),
               Expanded(
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
@@ -499,15 +518,14 @@ class _PdfToolCard extends StatelessWidget {
                       title,
                       maxLines: 1,
                       overflow: TextOverflow.ellipsis,
-                      style: const TextStyle(fontWeight: FontWeight.w600),
+                      style: Theme.of(context).textTheme.titleSmall,
                     ),
                     const SizedBox(height: 2),
                     Text(
                       subtitle,
                       maxLines: 1,
                       overflow: TextOverflow.ellipsis,
-                      style: TextStyle(
-                          fontSize: 12.5, color: scheme.onSurfaceVariant),
+                      style: Theme.of(context).textTheme.bodySmall,
                     ),
                   ],
                 ),
@@ -558,20 +576,20 @@ class _RecentCard extends StatelessWidget {
       child: InkWell(
         onTap: busy ? null : onOpen,
         child: Padding(
-          padding: const EdgeInsets.all(14),
+          padding: const EdgeInsets.all(AppSpacing.lg),
           child: Row(
             children: [
               Container(
                 width: 44,
                 height: 44,
                 decoration: BoxDecoration(
-                  color: scheme.primaryContainer,
-                  borderRadius: BorderRadius.circular(10),
+                  color: scheme.surfaceContainerHigh,
+                  borderRadius: BorderRadius.circular(AppSpacing.radiusSmall),
                 ),
                 child: Icon(Icons.picture_as_pdf,
-                    color: scheme.onPrimaryContainer, size: 22),
+                    color: scheme.primary, size: 22),
               ),
-              const SizedBox(width: 12),
+              const SizedBox(width: AppSpacing.md),
               Expanded(
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
@@ -581,13 +599,12 @@ class _RecentCard extends StatelessWidget {
                       doc.name,
                       maxLines: 1,
                       overflow: TextOverflow.ellipsis,
-                      style: const TextStyle(fontWeight: FontWeight.w600),
+                      style: Theme.of(context).textTheme.titleSmall,
                     ),
                     const SizedBox(height: 2),
                     Text(
                       '${_formatSize(doc.sizeBytes)} · ${_formatDate(doc.lastOpened)}',
-                      style: TextStyle(
-                          fontSize: 12.5, color: scheme.onSurfaceVariant),
+                      style: Theme.of(context).textTheme.bodySmall,
                     ),
                   ],
                 ),
@@ -611,22 +628,27 @@ class _EmptyRecents extends StatelessWidget {
   Widget build(BuildContext context) {
     final scheme = Theme.of(context).colorScheme;
     return Container(
-      padding: const EdgeInsets.symmetric(vertical: 40),
+      padding: const EdgeInsets.symmetric(vertical: AppSpacing.xxl),
       child: Column(
         children: [
-          Icon(Icons.history, size: 44, color: scheme.outline),
-          const SizedBox(height: 12),
+          Container(
+            width: 64,
+            height: 64,
+            decoration: BoxDecoration(
+              color: scheme.surfaceContainer,
+              shape: BoxShape.circle,
+            ),
+            child: Icon(Icons.history, size: 30, color: scheme.outline),
+          ),
+          const SizedBox(height: AppSpacing.lg),
           Text(
             'No recent documents yet',
-            style: Theme.of(context)
-                .textTheme
-                .titleMedium
-                ?.copyWith(fontWeight: FontWeight.w600),
+            style: Theme.of(context).textTheme.titleMedium,
           ),
-          const SizedBox(height: 4),
+          const SizedBox(height: AppSpacing.xs),
           Text(
             'Open a PDF above and it will show up here.',
-            style: TextStyle(color: scheme.onSurfaceVariant, fontSize: 13),
+            style: Theme.of(context).textTheme.bodySmall,
           ),
         ],
       ),

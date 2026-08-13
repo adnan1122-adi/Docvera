@@ -82,16 +82,20 @@ class _AdBannerViewState extends State<AdBannerView> {
         }
         final ad = _ad;
         if (ad != null && _loaded) {
-          return Column(
-            mainAxisSize: MainAxisSize.min,
-            crossAxisAlignment: CrossAxisAlignment.stretch,
-            children: [
-              const Divider(height: 1),
-              SizedBox(
-                height: ad.size.height.toDouble(),
-                child: AdWidget(ad: ad),
-              ),
-            ],
+          final scheme = Theme.of(context).colorScheme;
+          return Material(
+            color: scheme.surfaceContainerLow,
+            child: Column(
+              mainAxisSize: MainAxisSize.min,
+              crossAxisAlignment: CrossAxisAlignment.stretch,
+              children: [
+                const Divider(height: 1),
+                SizedBox(
+                  height: ad.size.height.toDouble(),
+                  child: AdWidget(ad: ad),
+                ),
+              ],
+            ),
           );
         }
         // Loading, consent-gated, or failed: collapse to nothing.

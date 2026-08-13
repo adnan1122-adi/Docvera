@@ -1,0 +1,8 @@
+# Android release keystore properties.
+# Copy this file to android/key.properties and fill in real values.
+# android/key.properties is gitignored — never commit it.
+# See docs/RELEASE_CHECKLIST.md step 1.
+storePassword=change-me
+keyPassword=change-me
+keyAlias=docvera
+storeFile=release-keystore.jks

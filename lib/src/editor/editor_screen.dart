@@ -26,6 +26,8 @@ import '../fill_sign/fill_sign_toolbar.dart';
 import '../models/recent_document.dart';
 import '../services/document_io.dart';
 import '../services/recent_store.dart';
+import '../theme/app_theme.dart';
+import '../theme/colors.dart';
 import '../tools/pdf_tool_util.dart';
 import 'pages_panel.dart';
 import 'style_popover.dart';
@@ -1054,7 +1056,7 @@ class _EditorScreenState extends State<EditorScreen> {
             viewerController: _viewer,
             documentId: widget.title,
             features: _features,
-            backgroundColor: Colors.transparent,
+            viewerTheme: _viewerTheme(context),
             alwaysAllowSave: true,
             onSave: (bytes) => _savePdf(bytes),
             onSaveAs: (bytes) => _saveAsPdf(bytes),
@@ -1088,6 +1090,30 @@ class _EditorScreenState extends State<EditorScreen> {
             ),
           ),
       ],
+    );
+  }
+
+  /// Viewer colours for the engine chrome: a neutral canvas behind the
+  /// pages, Docvera-blue selection and annotation chrome, amber search
+  /// matches, and a matching scrollbar.
+  PdfViewerThemeData _viewerTheme(BuildContext context) {
+    final dark = AppTheme.isDark(context);
+    final scheme = Theme.of(context).colorScheme;
+    final chrome = dark ? AppColors.chromeDark : AppColors.chromeLight;
+    return PdfViewerThemeData(
+      canvasColor: AppTheme.canvasColor(context),
+      selectionColor: dark ? AppColors.selectionDark : AppColors.selectionLight,
+      selectionHandleColor: chrome,
+      searchMatchColor:
+          dark ? AppColors.searchMatchDark : AppColors.searchMatchLight,
+      currentSearchMatchColor:
+          dark ? AppColors.searchCurrentDark : AppColors.searchCurrentLight,
+      annotationChromeColor: chrome,
+      elementChromeColor: chrome,
+      flashColor: scheme.primary.withValues(alpha: 0.35),
+      formFieldHighlightColor:
+          dark ? const Color(0x663D7BFF) : const Color(0x3320A4FF),
+      scrollbar: AppTheme.scrollbarTheme(dark),
     );
   }
 
@@ -1610,7 +1636,7 @@ class _InPlaceTextEditorState extends State<_InPlaceTextEditor> {
       height: widget.size.height,
       child: Material(
         elevation: 4,
-        color: Colors.white,
+        color: scheme.surface,
         shadowColor: Colors.black38,
         borderRadius: BorderRadius.circular(6),
         clipBehavior: Clip.antiAlias,
@@ -1702,7 +1728,7 @@ class _InPlaceTextEditorState extends State<_InPlaceTextEditor> {
                       vertical: 8,
                     ),
                   ),
-                  style: const TextStyle(fontSize: 14, color: Colors.black87),
+                  style: TextStyle(fontSize: 14, color: scheme.onSurface),
                   cursorColor: scheme.primary,
                   textInputAction: widget.multiline
                       ? TextInputAction.newline

@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 
 import 'src/ads/ad_service.dart';
 import 'src/home/home_screen.dart';
+import 'src/legal/legal_pages.dart';
 import 'src/theme/app_theme.dart';
 
 Future<void> main() async {
@@ -50,6 +51,10 @@ class _PdfEditorAppState extends State<PdfEditorApp> {
       theme: AppTheme.light(),
       darkTheme: AppTheme.dark(),
       themeMode: _mode,
+      routes: {
+        '/privacy': (_) => const PrivacyPolicyPage(),
+        '/terms': (_) => const TermsOfServicePage(),
+      },
       home: HomeScreen(
         darkMode: _effectiveDark(context),
         onToggleTheme: _toggleTheme,
