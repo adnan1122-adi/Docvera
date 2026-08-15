@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<!-- Branded native splash shown instantly before Flutter draws. -->
+<!-- Branded native splash (fallback for pre-API 21). -->
 <layer-list xmlns:android="http://schemas.android.com/apk/res/android">
     <item android:drawable="@color/splash_background" />
 </layer-list>

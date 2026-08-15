@@ -4,6 +4,7 @@ import 'package:flutter/material.dart';
 import 'src/ads/ad_service.dart';
 import 'src/home/home_screen.dart';
 import 'src/legal/legal_pages.dart';
+import 'src/splash/splash_screen.dart';
 import 'src/theme/app_theme.dart';
 
 Future<void> main() async {
@@ -27,6 +28,7 @@ class PdfEditorApp extends StatefulWidget {
 
 class _PdfEditorAppState extends State<PdfEditorApp> {
   ThemeMode _mode = ThemeMode.system;
+  bool _showSplash = true;
 
   bool _effectiveDark(BuildContext context) {
     return switch (_mode) {
@@ -43,6 +45,10 @@ class _PdfEditorAppState extends State<PdfEditorApp> {
     });
   }
 
+  void _finishSplash() {
+    setState(() => _showSplash = false);
+  }
+
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
@@ -55,10 +61,12 @@ class _PdfEditorAppState extends State<PdfEditorApp> {
         '/privacy': (_) => const PrivacyPolicyPage(),
         '/terms': (_) => const TermsOfServicePage(),
       },
-      home: HomeScreen(
-        darkMode: _effectiveDark(context),
-        onToggleTheme: _toggleTheme,
-      ),
+      home: _showSplash
+          ? SplashScreen(onDone: _finishSplash)
+          : HomeScreen(
+              darkMode: _effectiveDark(context),
+              onToggleTheme: _toggleTheme,
+            ),
     );
   }
 }

@@ -4,4 +4,7 @@
          Replace this color with the Docvera brand color once the final
          logo artwork is provided. -->
     <color name="ic_launcher_background">#FFFFFF</color>
+
+    <!-- Native splash background — matches the Flutter splash brand color. -->
+    <color name="splash_background">#123BDA</color>
 </resources>

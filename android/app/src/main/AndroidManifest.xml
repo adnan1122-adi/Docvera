@@ -1,4 +1,5 @@
-<manifest xmlns:android="http://schemas.android.com/apk/res/android">
+<manifest xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools">
     <!-- Required by the Google Mobile Ads SDK. -->
     <uses-permission android:name="android.permission.INTERNET"/>
     <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE"/>
@@ -40,6 +41,21 @@
         <meta-data
             android:name="flutterEmbedding"
             android:value="2" />
+        <!-- Disable the App Startup library's eager initialization of
+             WorkManager. The transitive androidx.work:work-runtime is pulled
+             in by an SDK and its auto-init crashes the app at launch on some
+             devices ("Failed to create an instance of WorkDatabase"). It is
+             initialized lazily by the SDK that needs it instead. -->
+        <provider
+            android:name="androidx.startup.InitializationProvider"
+            android:authorities="${applicationId}.androidx-startup"
+            android:exported="false"
+            tools:node="merge">
+            <meta-data
+                android:name="androidx.work.WorkManagerInitializer"
+                android:value="androidx.startup"
+                tools:node="remove" />
+        </provider>
     </application>
     <!-- Required to query activities that can process text, see:
          https://developer.android.com/training/package-visibility and
